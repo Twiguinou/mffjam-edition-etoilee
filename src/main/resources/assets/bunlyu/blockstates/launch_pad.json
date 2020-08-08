@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "bunlyu:block/launch_pad",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "bunlyu:block/launch_pad",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "bunlyu:block/launch_pad",
+      "y": 0
+    },
+    "facing=west": {
+      "model": "bunlyu:block/launch_pad",
+      "y": 90
+    }
+  }
+}
