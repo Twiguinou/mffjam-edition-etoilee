@@ -16,6 +16,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -37,12 +38,12 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return SHAPE;
+        return this.isMiddle(state) ? SHAPE : VoxelShapes.empty();
     }
 
     @Override
     public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return SHAPE;
+        return this.isMiddle(state) ? SHAPE : VoxelShapes.empty();
     }
 
     @Override
@@ -73,7 +74,7 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         if(!worldIn.isRemote) {
             if(this.isMiddle(state)) {
-                process(worldIn, pos, true);
+                this.process(worldIn, pos, true);
             }
         }
     }
@@ -84,13 +85,17 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
             if(!this.isMiddle(state))
                 for(Direction direction : state.get(PART).getDirections())
                     pos = pos.offset(direction.getOpposite());
-            process(worldIn, pos, false);
+            this.process(worldIn, pos, false);
         }
     }
 
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        return worldIn.isAirBlock(currentPos.down()) && this.isMiddle(stateIn) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        if(worldIn.isAirBlock(currentPos.down()) && this.isMiddle(stateIn)) {
+            this.process(worldIn.getWorld(), currentPos, true);
+            return Blocks.AIR.getDefaultState();
+        }
+        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
     @Override
