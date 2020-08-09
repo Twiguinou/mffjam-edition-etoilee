@@ -7,6 +7,7 @@ public class ParallelClient extends ParallelServer {
 
     @Override
     public void client(FMLClientSetupEvent event) {
+        MasterRenderer.entities();
         MasterRenderer.tileEntities();
     }
 }
