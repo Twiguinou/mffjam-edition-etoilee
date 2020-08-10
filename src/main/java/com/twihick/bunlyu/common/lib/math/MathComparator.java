@@ -10,6 +10,10 @@ public final class MathComparator {
         return new Vec3d(start.x*norm+end.x*momentum, start.y*norm+end.y*momentum, start.z*norm+end.z*momentum);
     }
 
+    public static double interpolate(double start, double end, double momentum) {
+        return start + momentum * (end-start);
+    }
+
     public static Vec3d rotateVector(Vec3d origin, Vec3d vec3d, Direction.Axis axis, double angle) {
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
@@ -19,7 +23,7 @@ public final class MathComparator {
         switch(axis) {
             case Z:
                 double x0 = x * cos - y * sin;
-                double y0 = x * cos + y * sin;
+                double y0 = y * cos + x * sin;
                 return new Vec3d(x0+origin.x, y0+origin.y, vec3d.z);
             case X:
                 double y1 = y * cos - z * sin;

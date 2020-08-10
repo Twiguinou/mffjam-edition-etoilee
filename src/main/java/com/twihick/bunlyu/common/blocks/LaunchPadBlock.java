@@ -1,14 +1,11 @@
 package com.twihick.bunlyu.common.blocks;
 
 import com.twihick.bunlyu.common.blocks.parts.LaunchPadPart;
-import com.twihick.bunlyu.common.entities.rocket.RocketCoreEntity;
-import com.twihick.bunlyu.common.entities.rocket.part.ARocketPartEntity;
 import com.twihick.bunlyu.common.tileentities.LaunchPadTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -16,7 +13,6 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -27,7 +23,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -87,11 +82,6 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!worldIn.isRemote) {
-            List<Entity> entities = worldIn.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(-1.0D, 0.0D, -1.0D, 2.0D, 20.0D, 2.0D).offset(pos));
-            for(Entity entity : entities) {
-                if(entity instanceof RocketCoreEntity || entity instanceof ARocketPartEntity)
-                    entity.remove();
-            }
             if(!this.isMiddle(state))
                 for(Direction direction : state.get(PART).getDirections())
                     pos = pos.offset(direction.getOpposite());
