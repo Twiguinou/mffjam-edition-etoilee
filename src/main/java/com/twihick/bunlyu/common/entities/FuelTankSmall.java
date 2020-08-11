@@ -25,7 +25,7 @@ public class FuelTankSmall extends Entity {
     @Override
     public AxisAlignedBB getBoundingBox() {
         OrientedBoundingBox orientedBoundingBox = this.getOrientedCollisionBox().offset(this.getPositionVec());
-        //orientedBoundingBox = orientedBoundingBox.rotateRelative(this.getPositionVec(), Direction.Axis.Z, 10.0D);
+        orientedBoundingBox = orientedBoundingBox.rotateRelative(this.getPositionVec(), Direction.Axis.Y, this.rotationYaw);
         return orientedBoundingBox.toAxisAlignedBB();
     }
 
@@ -41,7 +41,7 @@ public class FuelTankSmall extends Entity {
         return this.getBoundingBox();
     }
 
-    private OrientedBoundingBox getOrientedCollisionBox() {
+    public OrientedBoundingBox getOrientedCollisionBox() {
         return new OrientedBoundingBox(-0.5D, 0.0D, -0.5D, 0.5D, 2.0D, 0.5D);
     }
 

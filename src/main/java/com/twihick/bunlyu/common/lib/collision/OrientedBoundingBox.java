@@ -1,5 +1,6 @@
 package com.twihick.bunlyu.common.lib.collision;
 
+import com.google.common.collect.ImmutableList;
 import com.twihick.bunlyu.common.lib.math.MathComparator;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -85,9 +86,43 @@ public class OrientedBoundingBox implements IBoundingBox {
     }
 
     public OrientedBoundingBox rotateRelative(Vec3d origin, Direction.Axis axis, double angle) {
+        double sin = Math.sin(angle);
+        double cos = Math.cos(angle);
         Vec3d[] copy = Arrays.copyOf(this.nodes, this.nodes.length);
-        for(int i = 0; i < copy.length; i++)
-            copy[i] = MathComparator.rotateVector(origin, copy[i], axis, angle);
+        switch(axis) {
+            case Z:
+                for(int i = 0; i < copy.length; i++) {
+                    Vec3d node = copy[i];
+                    double x = node.x - origin.x;
+                    double y = node.y - origin.y;
+                    double x0 = (x*cos-y*sin) + origin.x;
+                    double y0 = (y*cos+x*sin) + origin.y;
+                    copy[i] = new Vec3d(x0, y0, node.z);
+                }
+                break;
+            case X:
+                for(int i = 0; i < copy.length; i++) {
+                    Vec3d node = copy[i];
+                    double y = node.y - origin.y;
+                    double z = node.z - origin.z;
+                    double y0 = (y*cos-z*sin) + origin.y;
+                    double z0 = (z*cos+y*sin) + origin.z;
+                    copy[i] = new Vec3d(node.x, y0, z0);
+                }
+                break;
+            case Y:
+                for(int i = 0; i < copy.length; i++) {
+                    Vec3d node = copy[i];
+                    double x = node.x - origin.x;
+                    double z = node.z - origin.z;
+                    double x0 = (x*cos+z*sin) + origin.x;
+                    double z0 = (z*cos-x*sin) + origin.z;
+                    copy[i] = new Vec3d(x0, node.x, z0);
+                }
+                break;
+            default:
+                break;
+        }
         return new OrientedBoundingBox(copy);
     }
 
@@ -96,6 +131,10 @@ public class OrientedBoundingBox implements IBoundingBox {
         Vec3d min = this.getMinVec();
         Vec3d max = this.getMaxVec();
         return new AxisAlignedBB(min.x, min.y, min.z, max.x, max.y, max.z);
+    }
+
+    public ImmutableList<Vec3d> getNodes() {
+        return ImmutableList.copyOf(this.nodes);
     }
 
 }

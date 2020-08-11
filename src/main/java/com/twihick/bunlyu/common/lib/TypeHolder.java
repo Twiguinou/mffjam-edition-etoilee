@@ -28,15 +28,7 @@ public class TypeHolder<V> {
     }
 
     public void set(@Nullable V value) {
-        try {
-            Field field = this.getClass().getField("value");
-            field.setAccessible(true);
-            if(!Modifier.isFinal(field.getModifiers()))
-                this.value = value;
-            field.setAccessible(false);
-        }catch(NoSuchFieldException e) {
-            LOGGER.error(e);
-        }
+        this.value = value;
     }
 
     public void lock() {
@@ -46,8 +38,6 @@ public class TypeHolder<V> {
             Field modifiers = Field.class.getDeclaredField("modifiers");
             modifiers.setAccessible(true);
             modifiers.setInt(field, Modifier.FINAL);
-            field.setAccessible(false);
-            modifiers.setAccessible(false);
         }catch(NoSuchFieldException | IllegalAccessException e) {
             LOGGER.error(e);
         }
