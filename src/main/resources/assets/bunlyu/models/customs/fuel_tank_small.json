@@ -680,6 +680,43 @@
 			}
 		}
 	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [38, 0, 0],
+			"translation": [0, 0.75, 0.75],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [38, 0, 0],
+			"translation": [0, 0.75, 0.75],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"firstperson_righthand": {
+			"rotation": [-18, 0, 34],
+			"translation": [-2, 5, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-18, 0, 34],
+			"translation": [-2, 5, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"ground": {
+			"rotation": [0, 0, 90],
+			"translation": [-2.25, -2, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [0, 0, -45],
+			"translation": [3.25, 3.25, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"fixed": {
+			"rotation": [0, 0, 45],
+			"translation": [-2.75, 2.75, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	},
 	"groups": [
 		{
 			"name": "hexadecagon",

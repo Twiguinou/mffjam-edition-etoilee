@@ -17,7 +17,9 @@ public class ModelGatherer {
 
     private static final Set<IAssociativeModel> MODELS = new HashSet<>();
 
+    public static IAssociativeModel ENGINE_SMALL = new DefaultAssociativeModel("engine_small", Directory.CUSTOMS);
     public static IAssociativeModel FUEL_TANK_SMALL = new DefaultAssociativeModel("fuel_tank_small", Directory.CUSTOMS);
+    public static IAssociativeModel METAL_RAMP = new DefaultAssociativeModel("metal_ramp", Directory.CUSTOMS);
 
     static void add(IAssociativeModel model) {
         Validate.notNull(model.getLocation());

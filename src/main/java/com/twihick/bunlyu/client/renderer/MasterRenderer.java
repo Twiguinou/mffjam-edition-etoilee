@@ -1,6 +1,7 @@
 package com.twihick.bunlyu.client.renderer;
 
-import com.twihick.bunlyu.client.renderer.entity.FuelTankSmallRenderer;
+import com.twihick.bunlyu.client.renderer.entity.rocket.EngineSmallRenderer;
+import com.twihick.bunlyu.client.renderer.entity.rocket.FuelTankSmallRenderer;
 import com.twihick.bunlyu.client.renderer.tileentity.LaunchPadTileEntityRenderer;
 import com.twihick.bunlyu.common.registry.EntitiesList;
 import com.twihick.bunlyu.common.registry.TileEntitiesList;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public final class MasterRenderer {
 
     public static void entities() {
+        RenderingRegistry.registerEntityRenderingHandler(EntitiesList.ENGINE_SMALL, EngineSmallRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitiesList.FUEL_TANK_SMALL, FuelTankSmallRenderer::new);
     }
 

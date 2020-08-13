@@ -4,9 +4,9 @@ import com.twihick.bunlyu.common.lib.collision.OrientedBoundingBox;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.World;
 
-public class FuelTankSmall extends ARocketPart {
+public class EngineSmall extends ARocketPart {
 
-    public FuelTankSmall(EntityType<?> entityTypeIn, World worldIn) {
+    public EngineSmall(EntityType<?> entityTypeIn, World worldIn) {
         super(entityTypeIn, worldIn);
     }
 
@@ -16,8 +16,8 @@ public class FuelTankSmall extends ARocketPart {
     }
 
     @Override
-    public OrientedBoundingBox getOrientedCollisionBox() {
-        return new OrientedBoundingBox(-0.5D, -1.0D, -0.5D, 0.5D, 1.0D, 0.5D);
+    protected OrientedBoundingBox getOrientedCollisionBox() {
+        return new OrientedBoundingBox(-0.5D, -1.0D, -0.5D, 0.5D, 0.0D, 0.5D);
     }
 
 }

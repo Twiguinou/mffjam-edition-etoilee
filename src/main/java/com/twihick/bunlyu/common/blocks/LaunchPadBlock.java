@@ -100,7 +100,7 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return true;
+        return state.get(PART) == LaunchPadPart.MIDDLE;
     }
 
     @Override

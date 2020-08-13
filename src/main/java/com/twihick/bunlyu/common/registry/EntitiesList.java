@@ -2,6 +2,7 @@ package com.twihick.bunlyu.common.registry;
 
 import com.twihick.bunlyu.Main;
 import com.twihick.bunlyu.common.entities.rocket.ARocketPart;
+import com.twihick.bunlyu.common.entities.rocket.EngineSmall;
 import com.twihick.bunlyu.common.entities.rocket.FuelTankSmall;
 import com.twihick.bunlyu.common.items.RocketPartItem;
 import com.twihick.bunlyu.common.lib.TypeHolder;
@@ -26,6 +27,7 @@ public class EntitiesList {
     private static final Logger LOGGER = LogManager.getLogger(EntitiesList.class);
     private static final Set<EntityType<?>> ENTITIES = new HashSet<>();
 
+    public static final EntityType<EngineSmall> ENGINE_SMALL = buildRocketPart(EngineSmall.class, "engine_small");
     public static final EntityType<FuelTankSmall> FUEL_TANK_SMALL = buildRocketPart(FuelTankSmall.class, "fuel_tank_small");
 
     private static <T extends Entity> EntityType<T> buildEntity(Class<T> clazz, IAssemblyType properties, String label) {

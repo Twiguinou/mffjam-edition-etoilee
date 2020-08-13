@@ -16,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Optional;
 import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
@@ -67,7 +66,7 @@ public class SpecialDrawer {
         GLFunctions.popMatrix();
     }
 
-    public static void drawModel(IBakedModel model, MatrixStack matrix, IRenderTypeBuffer buffer, int light, int overlay, Optional<Float> alpha) {
+    public static void drawModel(IBakedModel model, MatrixStack matrix, IRenderTypeBuffer buffer, int light, int overlay) {
         matrix.push();
         matrix.translate(-0.5D, 0.0D, -0.5D);
         IVertexBuilder builder = buffer.getBuffer(RenderType.getSolid());
@@ -76,13 +75,13 @@ public class SpecialDrawer {
         for(Direction direction : Direction.values()) {
             for(BakedQuad quad : model.getQuads(null, direction, rand)) {
                 float[] rgba = getColorRGBA(quad.getTintIndex());
-                builder.addVertexData(matrix.getLast(), quad, rgba[0], rgba[1], rgba[2], alpha.isPresent() ? alpha.get() : rgba[3], light, overlay);
+                builder.addVertexData(matrix.getLast(), quad, rgba[0], rgba[1], rgba[2], rgba[3], light, overlay);
             }
             rand.setSeed(42L);
         }
         for(BakedQuad quad : model.getQuads(null, null, rand)) {
             float[] rgba = getColorRGBA(quad.getTintIndex());
-            builder.addVertexData(matrix.getLast(), quad, rgba[0], rgba[1], rgba[2], alpha.isPresent() ? alpha.get() : rgba[3], light, overlay);
+            builder.addVertexData(matrix.getLast(), quad, rgba[0], rgba[1], rgba[2], rgba[3], light, overlay);
         }
         matrix.pop();
     }
