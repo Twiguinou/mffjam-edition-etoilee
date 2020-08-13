@@ -8,7 +8,7 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.Arrays;
 
-public class OrientedBoundingBox implements IBoundingBox {
+public class OrientedBoundingBox {
 
     public static final OrientedBoundingBox EMPTY = new OrientedBoundingBox(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D ,0.0D));
 
@@ -88,45 +88,45 @@ public class OrientedBoundingBox implements IBoundingBox {
     public OrientedBoundingBox rotateRelative(Vec3d origin, Direction.Axis axis, double angle) {
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
-        Vec3d[] copy = Arrays.copyOf(this.nodes, this.nodes.length);
         switch(axis) {
             case Z:
-                for(int i = 0; i < copy.length; i++) {
-                    Vec3d node = copy[i];
-                    double x = node.x - origin.x;
-                    double y = node.y - origin.y;
-                    double x0 = (x*cos-y*sin) + origin.x;
-                    double y0 = (y*cos+x*sin) + origin.y;
-                    copy[i] = new Vec3d(x0, y0, node.z);
+                Vec3d[] copyz = Arrays.copyOf(this.nodes, this.nodes.length);
+                for(int i = 0; i < copyz.length; i++) {
+                    double x = copyz[i].x - origin.x;
+                    double y = copyz[i].y - origin.y;
+                    double z = copyz[i].z - origin.z;
+                    double x1 = x * cos - y * sin;
+                    double y1 = y * cos + x * sin;
+                    copyz[i] = new Vec3d(x1+origin.x, y1+origin.y, z+origin.z);
                 }
-                break;
+                return new OrientedBoundingBox(copyz);
             case X:
-                for(int i = 0; i < copy.length; i++) {
-                    Vec3d node = copy[i];
-                    double y = node.y - origin.y;
-                    double z = node.z - origin.z;
-                    double y0 = (y*cos-z*sin) + origin.y;
-                    double z0 = (z*cos+y*sin) + origin.z;
-                    copy[i] = new Vec3d(node.x, y0, z0);
+                Vec3d[] copyx = Arrays.copyOf(this.nodes, this.nodes.length);
+                for(int i = 0; i < copyx.length; i++) {
+                    double x = copyx[i].x - origin.x;
+                    double y = copyx[i].y - origin.y;
+                    double z = copyx[i].z - origin.z;
+                    double y1 = y * cos - z * sin;
+                    double z1 = z * cos + y * sin;
+                    copyx[i] = new Vec3d(x+origin.x, y1+origin.y, z1+origin.z);
                 }
-                break;
+                return new OrientedBoundingBox(copyx);
             case Y:
-                for(int i = 0; i < copy.length; i++) {
-                    Vec3d node = copy[i];
-                    double x = node.x - origin.x;
-                    double z = node.z - origin.z;
-                    double x0 = (x*cos+z*sin) + origin.x;
-                    double z0 = (z*cos-x*sin) + origin.z;
-                    copy[i] = new Vec3d(x0, node.x, z0);
+                Vec3d[] copyy = Arrays.copyOf(this.nodes, this.nodes.length);
+                for(int i = 0; i < copyy.length; i++) {
+                    double x = copyy[i].x - origin.x;
+                    double y = copyy[i].y - origin.y;
+                    double z = copyy[i].z - origin.z;
+                    double x1 = x * cos + z * sin;
+                    double z1 = z * cos - x * sin;
+                    copyy[i] = new Vec3d(x1+origin.x, y+origin.y, z1+origin.z);
                 }
-                break;
+                return new OrientedBoundingBox(copyy);
             default:
-                break;
+                return this;
         }
-        return new OrientedBoundingBox(copy);
     }
 
-    @Override
     public AxisAlignedBB toAxisAlignedBB() {
         Vec3d min = this.getMinVec();
         Vec3d max = this.getMaxVec();

@@ -1,10 +1,13 @@
 package com.twihick.bunlyu.common.registry;
 
 import com.twihick.bunlyu.Main;
-import com.twihick.bunlyu.common.entities.FuelTankSmall;
+import com.twihick.bunlyu.common.entities.rocket.ARocketPart;
+import com.twihick.bunlyu.common.entities.rocket.FuelTankSmall;
+import com.twihick.bunlyu.common.items.RocketPartItem;
 import com.twihick.bunlyu.common.lib.TypeHolder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
@@ -23,7 +26,7 @@ public class EntitiesList {
     private static final Logger LOGGER = LogManager.getLogger(EntitiesList.class);
     private static final Set<EntityType<?>> ENTITIES = new HashSet<>();
 
-    public static final EntityType<FuelTankSmall> FUEL_TANK_SMALL = buildEntity(FuelTankSmall.class, IAssemblyType.Default.getInstance(1.0F, 1.0F), "fuel_tank_small");
+    public static final EntityType<FuelTankSmall> FUEL_TANK_SMALL = buildRocketPart(FuelTankSmall.class, "fuel_tank_small");
 
     private static <T extends Entity> EntityType<T> buildEntity(Class<T> clazz, IAssemblyType properties, String label) {
         Vec2f size = properties.getSize();
@@ -58,9 +61,16 @@ public class EntitiesList {
         return entity;
     }
 
+    private static <T extends ARocketPart> EntityType<T> buildRocketPart(Class<T> clazz, String label) {
+        EntityType<T> entity = buildEntity(clazz, IAssemblyType.Default.getInstance(0.0F, 0.0F), label);
+        ItemsList.buildItem(new RocketPartItem(new Item.Properties().group(Main.GROUP).maxStackSize(1), entity), label);
+        return entity;
+    }
+
     @SubscribeEvent
     public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
         ENTITIES.forEach(entity -> event.getRegistry().register(entity));
+        ENTITIES.clear();
     }
 
 }

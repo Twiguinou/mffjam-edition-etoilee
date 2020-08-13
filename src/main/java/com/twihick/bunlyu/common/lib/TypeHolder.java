@@ -33,7 +33,7 @@ public class TypeHolder<V> {
 
     public void lock() {
         try {
-            Field field = this.getClass().getField("value");
+            Field field = this.getClass().getDeclaredField("value");
             field.setAccessible(true);
             Field modifiers = Field.class.getDeclaredField("modifiers");
             modifiers.setAccessible(true);

@@ -26,6 +26,7 @@ public class ItemsList {
     @SubscribeEvent
     public static void registerItems(final RegistryEvent.Register<Item> event) {
         ITEMS.forEach(item -> event.getRegistry().register(item));
+        ITEMS.clear();
     }
 
 }

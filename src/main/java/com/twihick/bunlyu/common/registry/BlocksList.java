@@ -31,6 +31,7 @@ public class BlocksList {
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
         BLOCKS.forEach(block -> event.getRegistry().register(block));
+        BLOCKS.clear();
     }
 
 }

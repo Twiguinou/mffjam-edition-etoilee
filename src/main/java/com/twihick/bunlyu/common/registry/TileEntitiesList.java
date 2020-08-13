@@ -30,6 +30,7 @@ public class TileEntitiesList {
     @SubscribeEvent
     public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
         TILE_ENTITIES.forEach(te -> event.getRegistry().register(te));
+        TILE_ENTITIES.clear();
     }
 
 }
