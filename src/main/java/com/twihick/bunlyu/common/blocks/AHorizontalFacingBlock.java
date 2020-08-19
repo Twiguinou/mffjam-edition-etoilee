@@ -1,18 +1,18 @@
 package com.twihick.bunlyu.common.blocks;
 
+import com.twihick.bunlyu.common.state.CustomProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 
 public abstract class AHorizontalFacingBlock extends Block {
 
-    public static final DirectionProperty ALIGNMENT = BlockStateProperties.HORIZONTAL_FACING;
+    public static final DirectionProperty ALIGNMENT = CustomProperties.ALIGNMENT;
 
     public AHorizontalFacingBlock(Block.Properties properties) {
         super(properties);

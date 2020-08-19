@@ -2,6 +2,7 @@ package com.twihick.bunlyu.common.registry;
 
 import com.twihick.bunlyu.Main;
 import com.twihick.bunlyu.common.tileentities.LaunchPadTileEntity;
+import com.twihick.bunlyu.common.tileentities.MonitorTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -19,6 +20,7 @@ public class TileEntitiesList {
     private static final Set<TileEntityType<?>> TILE_ENTITIES = new HashSet<>();
 
     public static final TileEntityType<LaunchPadTileEntity> LAUNCH_PAD = buildTileEntity(LaunchPadTileEntity::new, "launch_pad", BlocksList.LAUNCH_PAD);
+    public static final TileEntityType<MonitorTileEntity> MONITOR = buildTileEntity(MonitorTileEntity::new, "monitor", BlocksList.MONITOR);
 
     private static <T extends TileEntity> TileEntityType<T> buildTileEntity(Supplier<T> supplier, String label, Block... blocks) {
         TileEntityType<T> te = TileEntityType.Builder.create(supplier, blocks).build(null);

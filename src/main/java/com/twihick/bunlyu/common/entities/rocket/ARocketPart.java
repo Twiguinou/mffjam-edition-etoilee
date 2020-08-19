@@ -20,9 +20,7 @@ import java.util.stream.Collectors;
 
 public abstract class ARocketPart extends Entity {
 
-    @Nullable
     private ARocketPart previousPart;
-    @Nullable
     private ARocketPart nextPart;
     private boolean isLaunched;
 

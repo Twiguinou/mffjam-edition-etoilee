@@ -3,6 +3,7 @@ package com.twihick.bunlyu.common.items;
 import com.twihick.bunlyu.common.blocks.LaunchPadBlock;
 import com.twihick.bunlyu.common.blocks.parts.LaunchPadPart;
 import com.twihick.bunlyu.common.entities.rocket.ARocketPart;
+import com.twihick.bunlyu.common.state.CustomProperties;
 import com.twihick.bunlyu.common.tileentities.LaunchPadTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -31,7 +32,7 @@ public class RocketPartItem<T extends ARocketPart> extends Item {
             BlockPos pos = ((BlockRayTraceResult)result).getPos();
             BlockState state = worldIn.getBlockState(pos);
             if(state.getBlock() instanceof LaunchPadBlock) {
-                if(state.get(LaunchPadBlock.PART) == LaunchPadPart.MIDDLE) {
+                if(state.get(CustomProperties.PART) == LaunchPadPart.MIDDLE) {
                     LaunchPadTileEntity te = (LaunchPadTileEntity) worldIn.getTileEntity(pos);
                     if(te.attachPart(this.part)) {
                         return ActionResult.resultConsume(stack);

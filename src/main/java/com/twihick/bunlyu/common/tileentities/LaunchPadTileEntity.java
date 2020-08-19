@@ -25,23 +25,24 @@ public class LaunchPadTileEntity extends TileEntity implements ITickableTileEnti
     @Override
     public void tick() {
         if(this.hasPartAttached()) {
-            for(double y = 1; y < 15; y++) {
-                BlockPos pos = this.getPos().add(this.getPos().getX(), y, this.getPos().getZ());
+            for(int y = 1; y < this.getPartsNumber()*2; y++) {
+                BlockPos blockPos = this.getPos().add(0, y, 1);
                 for(LaunchPadPart part : LaunchPadPart.values()) {
                     for(Direction direction : part.getDirections())
-                        pos = pos.offset(direction);
-                    if(!this.world.isAirBlock(pos))
-                        this.world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                        blockPos = blockPos.offset(direction);
+                    if(!this.world.isAirBlock(blockPos)) {
+                        System.out.println(blockPos.toString());
+                        this.world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+                    }
                 }
             }
         }
     }
 
     public int getPartsNumber() {
-        TypeHolder<Integer> typeHolder = new TypeHolder<>();
+        TypeHolder<Integer> typeHolder = new TypeHolder<>(0);
         if(this.hasPartAttached()) {
-            typeHolder.set(1);
-            this.basePart.forEachPart(part -> typeHolder.set(typeHolder.get()+1), false);
+            this.basePart.forEachPart(part -> typeHolder.set(typeHolder.get()+1), true);
             typeHolder.lock();
             return typeHolder.get();
         }
@@ -52,15 +53,17 @@ public class LaunchPadTileEntity extends TileEntity implements ITickableTileEnti
         return this.basePart != null;
     }
 
-    public boolean removePart() {
-        if(this.hasPartAttached()) {
-            ARocketPart part = this.basePart.getLastNext();
-            part.remove();
-            if(part == this.basePart)
-                this.basePart = null;
-            return true;
+    public void removePart() {
+        if(this.hasPartAttached() && !this.world.isRemote) {
+            if(this.basePart.hasNext()) {
+                ARocketPart part = this.basePart.getLastNext();
+                part.remove();
+                part.getPrevious().setNext(null);
+            }else {
+                this.basePart.remove();
+                this.setBasePart(null);
+            }
         }
-        return false;
     }
 
     public <T extends ARocketPart> boolean attachPart(EntityType<T> entity) {

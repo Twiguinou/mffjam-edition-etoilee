@@ -24,9 +24,9 @@ public class LaunchPadTileEntityRenderer extends TileEntityRenderer<LaunchPadTil
     @Override
     public void render(LaunchPadTileEntity launchPad, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int light, int overlay) {
         matrix.push();
-        matrix.rotate(Vector3f.YP.rotationDegrees(launchPad.getBlockState().get(AHorizontalFacingBlock.ALIGNMENT).getHorizontalAngle()));
-        matrix.translate(-0.5D, 0.0D, -0.5D);
-        for(double y = 0.0D; y < launchPad.getPartsNumber()*2.0D; y += 1.2D) {
+        matrix.translate(0.5D, 0.0D, 0.5D);
+        matrix.rotate(Vector3f.YP.rotationDegrees(90.0F*launchPad.getBlockState().get(AHorizontalFacingBlock.ALIGNMENT).getHorizontalIndex()));
+        for(double y = 0.0D; y < launchPad.getPartsNumber(); y += 1.2D) {
             matrix.push();
             matrix.translate(0.0D, y, 0.0D);
             SpecialDrawer.drawModel(ModelGatherer.METAL_RAMP.bake(), matrix, buffer, light, overlay);

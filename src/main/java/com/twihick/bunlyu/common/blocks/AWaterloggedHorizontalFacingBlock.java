@@ -24,7 +24,7 @@ public abstract class AWaterloggedHorizontalFacingBlock extends AHorizontalFacin
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid().isEquivalentTo(Fluids.WATER));
+        return super.getStateForPlacement(context).with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid().isEquivalentTo(Fluids.WATER));
     }
 
     @Override

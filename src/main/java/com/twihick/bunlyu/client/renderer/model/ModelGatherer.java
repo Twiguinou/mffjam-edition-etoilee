@@ -19,6 +19,8 @@ public class ModelGatherer {
 
     public static IAssociativeModel ENGINE_SMALL = new DefaultAssociativeModel("engine_small", Directory.CUSTOMS);
     public static IAssociativeModel FUEL_TANK_SMALL = new DefaultAssociativeModel("fuel_tank_small", Directory.CUSTOMS);
+    public static IAssociativeModel CAPSULE_SMALL = new DefaultAssociativeModel("capsule_small", Directory.CUSTOMS);
+    public static IAssociativeModel PARACHUTE_SMALL = new DefaultAssociativeModel("parachute_small", Directory.CUSTOMS);
     public static IAssociativeModel METAL_RAMP = new DefaultAssociativeModel("metal_ramp", Directory.CUSTOMS);
 
     static void add(IAssociativeModel model) {

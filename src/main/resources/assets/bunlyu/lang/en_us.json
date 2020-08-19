@@ -1,4 +1,12 @@
 {
   "block.bunlyu.launch_pad": "Launch Pad",
-  "item.bunlyu.wrong_placement": "You need a 3x3 empty area to place the launch pad!"
+  "block.bunlyu.monitor": "Monitor",
+  "item.bunlyu.capsule_small": "Capsule-Small",
+  "item.bunlyu.engine_small": "Engine-Small",
+  "item.bunlyu.fuel_tank_small": "FuelTank-Small",
+  "item.bunlyu.parachute_small": "Parachute-Small",
+  "alert.bunlyu.launch_pad.wrong_placement": "You need a 3x3 empty area to place the launch pad!",
+  "alert.bunlyu.monitor.wrong_placement": "The monitor needs a 2 blocks high area to be placed!",
+  "alert.bunlyu.monitor.not_connected": "The monitor is not connected to a launch pad",
+  "gui.bunlyu.button.ride": "Ride rocket"
 }

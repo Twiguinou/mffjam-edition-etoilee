@@ -1,6 +1,7 @@
 package com.twihick.bunlyu.common.blocks;
 
 import com.twihick.bunlyu.common.blocks.parts.LaunchPadPart;
+import com.twihick.bunlyu.common.state.CustomProperties;
 import com.twihick.bunlyu.common.tileentities.LaunchPadTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -12,8 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -28,7 +32,7 @@ import java.util.stream.Collectors;
 
 public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
 
-    public static final EnumProperty<LaunchPadPart> PART = EnumProperty.create("part", LaunchPadPart.class);
+    public static final EnumProperty<LaunchPadPart> PART = CustomProperties.PART;
     public static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
 
     public LaunchPadBlock(Block.Properties properties) {
@@ -38,21 +42,31 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return this.isMiddle(state) ? SHAPE : VoxelShapes.empty();
+        return isMiddle(state) ? SHAPE : VoxelShapes.empty();
     }
 
     @Override
     public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return this.isMiddle(state) ? SHAPE : VoxelShapes.empty();
+        return isMiddle(state) ? SHAPE : VoxelShapes.empty();
     }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        return this.isMiddle(state) ? super.getRenderType(state) : BlockRenderType.INVISIBLE;
+        return isMiddle(state) ? super.getRenderType(state) : BlockRenderType.INVISIBLE;
     }
 
-    private boolean isMiddle(BlockState state) {
+    public static boolean isMiddle(BlockState state) {
         return state.get(PART) == LaunchPadPart.MIDDLE;
+    }
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if(isMiddle(state) && player.isSneaking()) {
+            LaunchPadTileEntity te = (LaunchPadTileEntity) worldIn.getTileEntity(pos);
+            te.removePart();
+            return ActionResultType.SUCCESS;
+        }
+        return ActionResultType.PASS;
     }
 
     private void process(World world, BlockPos pos, boolean flag) {
@@ -73,7 +87,7 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         if(!worldIn.isRemote) {
-            if(this.isMiddle(state)) {
+            if(isMiddle(state)) {
                 this.process(worldIn, pos, true);
             }
         }
@@ -82,7 +96,7 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!worldIn.isRemote) {
-            if(!this.isMiddle(state))
+            if(!isMiddle(state))
                 for(Direction direction : state.get(PART).getDirections())
                     pos = pos.offset(direction.getOpposite());
             this.process(worldIn, pos, false);
@@ -91,7 +105,7 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
 
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if(worldIn.isAirBlock(currentPos.down()) && this.isMiddle(stateIn)) {
+        if(worldIn.isAirBlock(currentPos.down()) && isMiddle(stateIn)) {
             this.process(worldIn.getWorld(), currentPos, true);
             return Blocks.AIR.getDefaultState();
         }
@@ -113,4 +127,5 @@ public class LaunchPadBlock extends AWaterloggedHorizontalFacingBlock {
         super.fillStateContainer(builder);
         builder.add(PART);
     }
+
 }

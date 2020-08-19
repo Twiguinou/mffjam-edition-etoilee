@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=north,top=false": {
+      "model": "bunlyu:block/monitor_bottom",
+      "y": 180
+    },
+    "facing=east,top=false": {
+      "model": "bunlyu:block/monitor_bottom",
+      "y": 270
+    },
+    "facing=south,top=false": {
+      "model": "bunlyu:block/monitor_bottom",
+      "y": 0
+    },
+    "facing=west,top=false": {
+      "model": "bunlyu:block/monitor_bottom",
+      "y": 90
+    },
+    "facing=north,top=true": {
+      "model": "bunlyu:block/monitor_top",
+      "y": 180
+    },
+    "facing=east,top=true": {
+      "model": "bunlyu:block/monitor_top",
+      "y": 270
+    },
+    "facing=south,top=true": {
+      "model": "bunlyu:block/monitor_top",
+      "y": 0
+    },
+    "facing=west,top=true": {
+      "model": "bunlyu:block/monitor_top",
+      "y": 90
+    }
+  }
+}
